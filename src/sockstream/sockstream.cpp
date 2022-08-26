@@ -6,7 +6,8 @@
 #include <stdexcept>
 #include <cstdlib>
 
-using namespace cc;
+namespace cc {
+
 
 /*
  * 
@@ -357,3 +358,5 @@ sockstream_server &sockstream_server::operator>>(std::string &str)
 
     return *this;
 }
+
+} // NAMESPACE CC

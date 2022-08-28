@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <string>
+#include <stdexcept>
 
 #ifndef MAX_MSG_SIZE
 #define MAX_MSG_SIZE 1024
@@ -10,11 +11,33 @@
 
 namespace cc {
 
+/**
+ * @brief sockstream exception class
+ * 
+ */
+class socket_exception : public std::exception
+{
+public:
+    enum sock_except_t
+    {
+        CREATE_FD, UNSET,   SET,
+        ADDR_CON,  CONNECT, OPT,
+        BIND,      LISTEN,  ACCEPT,
+        BUFF,      READ,    WRITE
+    };
+
+    socket_exception(sock_except_t type);
+    const char *what() const throw();
+private:
+    sock_except_t __type;
+    std::string __msg;
+};
 
 class sockstream;
 using sockstream_op_t = void (*)(sockstream &);
 
 // STREAM OPERANDS
+
 /**
  * @brief Send the buffer contents and empty it. Meant to be used as a stream operator. e.g. sockstream << flush;
  *
@@ -50,13 +73,6 @@ private:
         UNSET,
         CLIENT,
         SERVER
-    };
-
-    struct client
-    {
-        int num;
-        sockaddr addr;
-        int fd;
     };
 
 public:
@@ -108,19 +124,17 @@ public:
      */
     void put(char c);
     /**
+     * @brief Put a null-terminated c-string into the buffer.
+     * 
+     * @param cstr Null-terminated c-string.
+     */
+    void put(char *cstr);
+    /**
      * @brief Put a string \b str into the buffer.
      *
      * @param str String to add to the buffer.
      */
     void put(std::string const &str);
-    /**
-     * @brief Put any object with std::to_string() into the buffer.
-     * 
-     * @tparam T Type of object with std::string() implementation.
-     * @param t Object to add to the buffer
-     */
-    //template <typename T>
-    //void put(const T &t);
     /**
      * @brief Read from the socket add put content into the buffer \b buff.
      *
@@ -128,19 +142,19 @@ public:
      * @param buff_len size of \b buffer
      * @return size_t number of bytes received.
      */
-    ssize_t read(char *buff, size_t buff_len);
+    ssize_t read(char *buff, size_t buff_len) const;
     /**
      * @brief Read from the socket into string \b str_buff.
      *
      * @param str_buff string to use as a buffer.
      */
-    void read(std::string &str_buff);
+    void read(std::string &str_buff) const;
     /**
      * @brief Read from socket and return contents in a string.
      *
      * @return std::string string containing contents of the socket.
      */
-    std::string read();
+    std::string read() const;
     /**
      * @brief Empty the buffer, without sending.
      *
@@ -150,28 +164,107 @@ public:
      * @brief Send the contents of the buffer, without emptying it.
      *
      */
-    void send();
+    void send() const;
 
-    // STREAM OPERATORS
+    // STREAM OPERATIONS
+
+    /**
+     * @brief Write a string to the buffer.
+     * 
+     * @param str string to write
+     * @return sockstream& reference to input to chain operations.
+     */
     sockstream &operator<<(std::string const &str);
+    /**
+     * @brief Write char to the buffer.
+     * 
+     * @param c char to write.
+     * @return sockstream& reference to input to chain operations.
+     */
     sockstream &operator<<(char c);
-
+    /**
+     * @brief Write short to buffer.
+     * 
+     * @param i short to write.
+     * @return sockstream& reference to input to chain operations.
+     */
     sockstream &operator<<(short i);
-    sockstream &operator<<(int   i);
-    sockstream &operator<<(long  i);
-    
+    /**
+     * @brief Write int to buffer.
+     * 
+     * @param i int to write.
+     * @return sockstream& reference to input to chain operations.
+     */
+    sockstream &operator<<(int i);
+    /**
+     * @brief Write long to buffer.
+     * 
+     * @param i long to write.
+     * @return sockstream& reference to input to chain operations.
+     */
+    sockstream &operator<<(long i);
+    /**
+     * @brief Write ushort to buffer.
+     * 
+     * @param i ushort to write.
+     * @return sockstream& reference to input to chain operations.
+     */
     sockstream &operator<<(unsigned short i);
-    sockstream &operator<<(unsigned int   i);
-    sockstream &operator<<(unsigned long  i);
-
-    sockstream &operator<<(float       i);
-    sockstream &operator<<(double      i);
+    /**
+     * @brief Write uint to buffer.
+     * 
+     * @param i uint to write.
+     * @return sockstream& reference to input to chain operations.
+     */
+    sockstream &operator<<(unsigned int i);
+    /**
+     * @brief Write ulong to buffer.
+     * 
+     * @param i ulong to write.
+     * @return sockstream& reference to input to chain operations.
+     */
+    sockstream &operator<<(unsigned long i);
+    /**
+     * @brief Write float to buffer.
+     * 
+     * @param i float to write.
+     * @return sockstream& reference to input to chain operations.
+     */
+    sockstream &operator<<(float i);
+    /**
+     * @brief Write double to buffer.
+     * 
+     * @param i double to write.
+     * @return sockstream& reference to input to chain operations.
+     */
+    sockstream &operator<<(double i);
+    /**
+     * @brief Write long double to buffer.
+     * 
+     * @param i long double to write.
+     * @return sockstream& reference to input to chain operations.
+     */
     sockstream &operator<<(long double i);
-    
-
-    // template <typename T>
-    // sockstream &operator<<(const T &t);
+    /**
+     * @brief Read message from socket into a string.
+     * 
+     * @param str string to hold incoming message.
+     * @return sockstream& reference to input to chain operations.
+     */
     sockstream &operator>>(std::string &str);
+    /**
+     * @brief Read character from the socket.
+     * 
+     * @param c char to hold incoming character.
+     * @return sockstream& reference to input to chain operations.
+     */
+    sockstream &operator>>(char &c);
+    /**
+     * @brief Apply functions to the stream. Such as flush and endl.
+     * 
+     * @param op function to be run.
+     * @return sockstream& reference to input to chain operations.
+     */
     sockstream &operator<<(sockstream_op_t op);
 
 private:
@@ -181,18 +274,5 @@ private:
     size_t __buff_sz;
 };
 
-class sockstream_server  {
-    public:
-        sockstream_server(int port);
-        ~sockstream_server();
-        sockstream_server &operator>>(std::string &str);
-
-    private:
-        int __fd, __client_fd;
-        sockaddr_in __addr;
-        
-};
 
 } // NAMESPACE CC
-
-#include "sockstream.tpp"

@@ -1,4 +1,4 @@
 # ccutil
-A clollection of C++ utility class
+A collection of C++ utility classes
 
 Includes zip-iterator, socket wrapper, string trimming, etc.

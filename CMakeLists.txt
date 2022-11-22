@@ -12,7 +12,15 @@ file(GLOB SOURCE
 
 add_library(${PROJECT_NAME} ${SOURCE})
 
-#set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+# Oldest supported standard is currently C++11
+
+
+# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
+  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 98)
+
 
 if (CMAKE_COMPILER_IS_GNUCXX)
   target_compile_options(${PROJECT_NAME} PRIVATE 
@@ -32,21 +40,25 @@ target_include_directories(${PROJECT_NAME} INTERFACE
 
 target_include_directories(${PROJECT_NAME} PRIVATE
   "include/ccutil/"
+  "include/ccutil/io/"
   "include/ccutil/zip/"
   "include/ccutil/str/"
-  "include/ccutil/sockstream/"
   "include/ccutil/progress/"
+  "include/ccutil/sockstream/"
 )
 
 if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
+  message(STATUS "Debug enabled, adding tests")
   enable_testing()
   add_subdirectory(tests/)
 
-  file(GLOB mainfile main.cc)
-  if (${mainfile} MATCHES "")
-    add_executable(main main.cc)
-    target_link_libraries(main ccutil)
+  file(GLOB mainfile main.cpp)
+  
+  if ("${mainfile}" STREQUAL "")
+    message(STATUS "No main.cpp test file")
   else()
-  message(STATUS "No main.cc test file")
+    message(STATUS "main.cpp test file found")
+    add_executable(main main.cpp)
+    target_link_libraries(main ccutil)
   endif()
 endif()

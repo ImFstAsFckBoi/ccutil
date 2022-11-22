@@ -13,7 +13,7 @@ namespace cc {
  * @param depth How many splits to do. 0 = all splits possible
  * @return std::vector<std::string> List of section after splitting.
  */
-std::vector<std::string> split(std::string str, char delim, std::size_t depth = 0);
+std::vector<std::string> split(std::string str, char delim = ' ', std::size_t depth = 0);
 /**
  * @brief Trim leading whitespaces from string. Resturn result.
  * 

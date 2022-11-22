@@ -1,4 +1,4 @@
-#include "str_util.hpp"
+#include "str.hpp"
 
 // str is not a reference since it needs to be copied anyway
 // https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c

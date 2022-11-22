@@ -1,4 +1,9 @@
-# ccutil
-A collection of C++ utility classes
+# ccutil - A collection of C++ utility classes
 
-Includes zip-iterator, socket wrapper, string trimming, etc.
+### Includes:
+- Zip-iterator
+- POSIX socket wrapper
+- String trimming
+- String splitting
+- IO constants
+- Termios wrapper

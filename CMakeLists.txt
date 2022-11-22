@@ -26,13 +26,27 @@ if (CMAKE_COMPILER_IS_GNUCXX)
   )
 endif()
 
-target_include_directories(${PROJECT_NAME} INTERFACE 
+target_include_directories(${PROJECT_NAME} INTERFACE
   "include/"
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE 
+target_include_directories(${PROJECT_NAME} PRIVATE
+  "include/ccutil/"
   "include/ccutil/zip/"
-  "include/ccutil/str_util/"
+  "include/ccutil/str/"
   "include/ccutil/sockstream/"
   "include/ccutil/progress/"
 )
+
+if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
+  enable_testing()
+  add_subdirectory(tests/)
+
+  file(GLOB mainfile main.cc)
+  if (${mainfile} MATCHES "")
+    add_executable(main main.cc)
+    target_link_libraries(main ccutil)
+  else()
+  message(STATUS "No main.cc test file")
+  endif()
+endif()

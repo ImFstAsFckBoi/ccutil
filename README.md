@@ -7,3 +7,6 @@
 - String splitting
 - IO constants
 - Termios wrapper
+
+### Testing:
+- Catch2 minimum version 3

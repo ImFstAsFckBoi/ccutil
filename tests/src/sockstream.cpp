@@ -1,4 +1,4 @@
-#include "catch2/catch.hpp"
+#include "catch2/catch_all.hpp"
 #include "ccutil/sockstream.hpp"
 #include <pthread.h>
 #include <unistd.h>

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "exception.hpp"
+#include "operand.hpp"
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <string>
@@ -9,54 +11,8 @@
 #define MAX_MSG_SIZE 1024
 #endif
 
-namespace cc {
-
-/**
- * @brief sockstream exception class
- * 
- */
-class socket_exception : public std::exception
+namespace cc
 {
-public:
-    enum sock_except_t
-    {
-        CREATE_FD, UNSET,   SET,
-        ADDR_CON,  CONNECT, OPT,
-        BIND,      LISTEN,  ACCEPT,
-        BUFF,      READ,    WRITE
-    };
-
-    socket_exception(sock_except_t type);
-    const char *what() const throw();
-private:
-    sock_except_t __type;
-    std::string __msg;
-};
-
-class sockstream;
-using sockstream_op_t = void (*)(sockstream &);
-
-// STREAM OPERANDS
-
-/**
- * @brief Send the buffer contents and empty it. Meant to be used as a stream operator. e.g. sockstream << flush;
- *
- * @param ss The sockstream to operate on.
- */
-void flush(sockstream &ss);
-/**
- * @brief Add a newline tot the buffer. Meant to be used as a stream operator. e.g. sockstream << newline;
- * 
- * @param ss The sockstream to operate on.
- */
-void newline(sockstream &ss);
-/**
- * @brief Add newline to the buffer and flush. Meant to be used as a stream operator. e.g. sockstream << flush;
- * 
- * @param ss The sockstream to operate on.
- */
-void endl(sockstream &ss);
-
 
 /**
  * @brief Stream object connected to a POSIX socket. 
@@ -68,23 +24,40 @@ void endl(sockstream &ss);
 class sockstream
 {
 private:
-    enum __mode_t : uint8_t
-    {
-        UNSET,
-        CLIENT,
-        SERVER
-    };
+    // Private types
+    enum __mode_t : uint8_t { UNSET, CLIENT, SERVER };
 
 public:
+    // Public types
+    enum transport_protocol { TCP, UDP };
+    enum network_protocol { IPv4, IPv6 };
+
     // CTOR, DTOR, ASSIGN
+    
     /**
-     * @brief Construct a new, uninitiated, sockstream object.
+     * @brief Construct a new, uninitialized, sockstream object with default parameters.
+     * Those parameters are TCP over IPv4
      * 
      */
     sockstream();
     /**
-     * @brief Destroy the sockstream object.
+     * @brief Construct a new, uninitialized, sockstream object with simplified options.
      * 
+     * @param t_proto Transport-layer protocol to use. Options are 'TCP' or 'UDP'.
+     * @param n_proto Network-layer protocol to use. Options are 'IPv4' or 'IPv6'.
+     */
+    sockstream(transport_protocol t_proto, network_protocol n_proto);
+    /**
+     * @brief Construct a new, uninitialized, sockstream object with full options
+     * 
+     * @param domain See socket(2) man page.
+     * @param type See socket(2) man page.
+     * @param protocol See socket(2) man page.
+     */
+    sockstream(int domain, int type, int protocol);
+    /**
+     * @brief Destroy the sockstream object.
+     *
      */
     ~sockstream();
 
@@ -269,10 +242,10 @@ public:
 
 private:
     __mode_t __mode;
+    int __domain;
     int __fd, __client_fd;
     char *__buff;
     size_t __buff_sz;
 };
-
 
 } // NAMESPACE CC

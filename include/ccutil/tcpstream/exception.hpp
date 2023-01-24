@@ -5,13 +5,13 @@
 namespace cc {
 
 /**
- * @brief sockstream exception class
+ * @brief tcpstream exception class
  * 
  */
-class sockstream_exception : public std::exception
+class tcpstream_exception : public std::exception
 {
 public:
-    enum sockstream_except_t
+    enum tcpstream_except_t
     {
         CREATE_FD, UNSET,   SET,
         ADDR_CON,  CONNECT, OPT,
@@ -19,10 +19,10 @@ public:
         BUFF,      READ,    WRITE
     };
 
-    sockstream_exception(sockstream_except_t type);
+    tcpstream_exception(tcpstream_except_t type);
     const char *what() const throw();
 private:
-    sockstream_except_t __type;
+    tcpstream_except_t __type;
     std::string __msg;
 };
 

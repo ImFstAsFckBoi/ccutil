@@ -1,4 +1,4 @@
-#include "sockstream/exception.hpp"
+#include "tcpstream/exception.hpp"
 
 namespace cc
 {
@@ -8,7 +8,7 @@ namespace cc
  *
  */
 
-sockstream_exception::sockstream_exception(sockstream_exception::sockstream_except_t type)
+tcpstream_exception::tcpstream_exception(tcpstream_exception::tcpstream_except_t type)
     : std::exception{}, __type{type}, __msg{}
 {
     switch (__type)
@@ -55,7 +55,7 @@ sockstream_exception::sockstream_exception(sockstream_exception::sockstream_exce
     }
 }
 
-const char *sockstream_exception::what() const throw()
+const char *tcpstream_exception::what() const throw()
 {
     return __msg.c_str();
 }

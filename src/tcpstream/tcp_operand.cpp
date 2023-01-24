@@ -1,4 +1,4 @@
-#include "sockstream/sockstream.hpp"
+#include "tcpstream/tcpstream.hpp"
 
 namespace cc
 {
@@ -10,15 +10,15 @@ namespace cc
  */
 
 
-void flush(sockstream &ss)
+void flush(tcpstream &ss)
 { ss.send(); ss.empty(); }
 
 
-void newline(sockstream &ss)
+void newline(tcpstream &ss)
 { ss.put('\n'); }
 
 
-void endl(sockstream &ss)
+void endl(tcpstream &ss)
 { ss.put('\n'); ss.send(); ss.empty(); }
 
 } // NAMESPACE CC

@@ -21,7 +21,7 @@ namespace cc
  * \b #define \b MAX_MSG_SIZE to set max message size in bytes. Default is 1024
  * 
  */
-class sockstream
+class tcpstream
 {
 private:
     // Private types
@@ -35,53 +35,38 @@ public:
     // CTOR, DTOR, ASSIGN
     
     /**
-     * @brief Construct a new, uninitialized, sockstream object with default parameters.
+     * @brief Construct a new, uninitialized, tcpstream object with default parameters.
      * Those parameters are TCP over IPv4
      * 
      */
-    sockstream();
+    tcpstream();
     /**
-     * @brief Construct a new, uninitialized, sockstream object with simplified options.
-     * 
-     * @param t_proto Transport-layer protocol to use. Options are 'TCP' or 'UDP'.
-     * @param n_proto Network-layer protocol to use. Options are 'IPv4' or 'IPv6'.
-     */
-    sockstream(transport_protocol t_proto, network_protocol n_proto);
-    /**
-     * @brief Construct a new, uninitialized, sockstream object with full options
-     * 
-     * @param domain See socket(2) man page.
-     * @param type See socket(2) man page.
-     * @param protocol See socket(2) man page.
-     */
-    sockstream(int domain, int type, int protocol);
-    /**
-     * @brief Destroy the sockstream object.
+     * @brief Destroy the tcpstream object.
      *
      */
-    ~sockstream();
+    ~tcpstream();
 
-    sockstream(const sockstream &) = delete;
-    sockstream &operator=(const sockstream &) = delete;
+    tcpstream(const tcpstream &) = delete;
+    tcpstream &operator=(const tcpstream &) = delete;
 
     // CONNECTIONS
 
     /**
-     * @brief Initiate sockstream object as a client and connect to a server endpoint.
+     * @brief Initiate tcpstream object as a client and connect to a server endpoint.
      * 
      * @param addr The address to connect to in string form.
      * @param port TCP port to connect to.
      */
     void connect(std::string const &addr, int port);
     /**
-     * @brief Initiate sockstream object as server and bind to an address and port.
+     * @brief Initiate tcpstream object as server and bind to an address and port.
      * 
      * @param addr The address to bind to in string form.
      * @param port TCP port to bind to.
      */
     void bind(std::string const &addr, int port);
     /**
-     * @brief Initiate sockstream object as server and bind to a port.
+     * @brief Initiate tcpstream object as server and bind to a port.
      * Binds to address "0.0.0.0" i.e. any address in allowed to connect.
      * 
      * @param port TCP port to bind to.
@@ -145,100 +130,100 @@ public:
      * @brief Write a string to the buffer.
      * 
      * @param str string to write
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(std::string const &str);
+    tcpstream &operator<<(std::string const &str);
     /**
      * @brief Write char to the buffer.
      * 
      * @param c char to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(char c);
+    tcpstream &operator<<(char c);
     /**
      * @brief Write short to buffer.
      * 
      * @param i short to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(short i);
+    tcpstream &operator<<(short i);
     /**
      * @brief Write int to buffer.
      * 
      * @param i int to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(int i);
+    tcpstream &operator<<(int i);
     /**
      * @brief Write long to buffer.
      * 
      * @param i long to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(long i);
+    tcpstream &operator<<(long i);
     /**
      * @brief Write ushort to buffer.
      * 
      * @param i ushort to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(unsigned short i);
+    tcpstream &operator<<(unsigned short i);
     /**
      * @brief Write uint to buffer.
      * 
      * @param i uint to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(unsigned int i);
+    tcpstream &operator<<(unsigned int i);
     /**
      * @brief Write ulong to buffer.
      * 
      * @param i ulong to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(unsigned long i);
+    tcpstream &operator<<(unsigned long i);
     /**
      * @brief Write float to buffer.
      * 
      * @param i float to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(float i);
+    tcpstream &operator<<(float i);
     /**
      * @brief Write double to buffer.
      * 
      * @param i double to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(double i);
+    tcpstream &operator<<(double i);
     /**
      * @brief Write long double to buffer.
      * 
      * @param i long double to write.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(long double i);
+    tcpstream &operator<<(long double i);
     /**
      * @brief Read message from socket into a string.
      * 
      * @param str string to hold incoming message.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator>>(std::string &str);
+    tcpstream &operator>>(std::string &str);
     /**
      * @brief Read character from the socket.
      * 
      * @param c char to hold incoming character.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator>>(char &c);
+    tcpstream &operator>>(char &c);
     /**
      * @brief Apply functions to the stream. Such as flush and endl.
      * 
      * @param op function to be run.
-     * @return sockstream& reference to input to chain operations.
+     * @return tcpstream& reference to input to chain operations.
      */
-    sockstream &operator<<(sockstream_op_t op);
+    tcpstream &operator<<(tcpstream_op_t op);
 
 private:
     __mode_t __mode;

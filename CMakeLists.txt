@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.0.0)
 
 project(ccutil VERSION 1.0.0 LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 file(GLOB SOURCE 
   "src/**/*.c" "src/**/*.cc" "src/**/*.cpp" "src/**/*.cxx"
   "src/*.c" "src/*.cc" "src/*.cpp" "src/*.cxx"
@@ -9,17 +12,8 @@ file(GLOB SOURCE
   "include/*.h" "include/*.hh" "include/*.hpp" "include/*.tcc" "include/*.tpp"
 )
 
-
 add_library(${PROJECT_NAME} ${SOURCE})
 
-# Oldest supported standard is currently C++11
-
-
-# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
-# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
-# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
-  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
-# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 98)
 
 
 if (CMAKE_COMPILER_IS_GNUCXX)

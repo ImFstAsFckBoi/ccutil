@@ -9,8 +9,8 @@ zip_iterator<T1_iter, T2_iter>::zip_iterator(T1_iter iter1, T2_iter iter2)
 {}
 
 template<typename T1_iter, typename T2_iter>
-typename zip_iterator<T1_iter, T2_iter>::value_type zip_iterator<T1_iter, T2_iter>::operator*() const noexcept
-{ return std::make_pair(*__iter1, *__iter2); }
+typename zip_iterator<T1_iter, T2_iter>::reference zip_iterator<T1_iter, T2_iter>::operator*() noexcept
+{ return std::make_pair(std::ref(*__iter1), std::ref(*__iter2)); }
 
 
 template<typename T1_iter, typename T2_iter>

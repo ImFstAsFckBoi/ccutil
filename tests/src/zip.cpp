@@ -38,9 +38,9 @@ TEST_CASE("Zip")
 
         for (auto i : cc::zip(v, m))
         {
-            if (i.first == i.second.first)
+            if (i.first.get() == i.second.get().first)
             {
-                for (auto j: i.second.second)
+                for (auto j: i.second.get().second)
                 {
                     ss << j;
                 }
@@ -61,5 +61,40 @@ TEST_CASE("Zip")
         }
 
         REQUIRE(C == 0);
+    }
+
+    SECTION("const")
+    {
+        std::stringstream ss;
+        const std::vector<int> v{1, 2, 3};
+        const std::string s{"abc"};
+
+
+        for (auto i : cc::zip(v, s))
+        {
+            ss << i.first << i.second;
+        }
+
+        REQUIRE(ss.str() == "1a2b3c");
+
+        ss.str("");
+
+        for (auto i : cc::zip(s, v))
+        {
+            ss << i.first.get() << i.second.get();
+        }
+
+        REQUIRE(ss.str() == "a1b2c3");
+    }
+
+    SECTION("ref")
+    {
+        std::vector<int> v1{1, 2, 3};
+        std::vector<int> v2{3, 2, 1};
+
+        for (auto i : cc::zip(v1, v2))
+            i.first.get() += i.second.get();
+
+        REQUIRE((v1[0] == 4 && v1[1] == 4 && v1[2] == 4));
     }
 }

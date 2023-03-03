@@ -4,12 +4,16 @@
         "ibuff",
         "obuff",
         "sockstream",
-        "strfmt"
+        "strfmt",
+        "tparam"
     ],
     "files.associations": {
         "*.txt": "txt",
         "*.asm": "avr",
         "CMakeLists.txt": "cmake",
+        "*.tpp": "cpp",
+        "*.tcc": "cpp",
+        "*.yml": "ansible",
         "ostream": "cpp",
         "iterator": "cpp",
         "vector": "cpp",
@@ -24,7 +28,6 @@
         "type_traits": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
-        "*.tcc": "cpp",
         "cctype": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
@@ -60,6 +63,24 @@
         "typeinfo": "cpp",
         "list": "cpp",
         "ctime": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "chrono": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "ratio": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "mutex": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp",
+        "cfenv": "cpp",
+        "valarray": "cpp",
+        "variant": "cpp",
+        "*.inc": "cpp",
+        "bitset": "cpp"
     }
 }

@@ -56,5 +56,13 @@ std::string &rtrim(std::string &s);
  * @return std::string Reference to s
  */
 std::string &trim(std::string &s);
+/**
+ * @brief Return the number of digits in the decimal representation of a number.
+ * 
+ * @param num Number of check.
+ * @param inc_minus Do/don't include the minus sign for negative numbers. Defaults to true.
+ * @return size_t Number of digits.
+ */
+size_t digits(int num, bool inc_minus = true);
 
 } // NAMESPACE CC

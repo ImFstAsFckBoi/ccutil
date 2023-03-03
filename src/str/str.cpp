@@ -1,5 +1,7 @@
 #include "str.hpp"
 
+#include <stdexcept>
+
 // str is not a reference since it needs to be copied anyway
 // https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
 
@@ -74,6 +76,28 @@ std::string &trim(std::string &s)
     rtrim(s);
     ltrim(s);
     return s;
+}
+
+
+size_t digits(int num, bool inc_minus)
+{                       
+    // 1000000000 *= 10 will overflow return wrong value.
+    // INT32_MAX is 2147483647
+    //              1000000000
+    //             -2147483648
+    if (-1000000000 >= num || num >= 1000000000)
+        throw std::invalid_argument("Max size allowed is 9 digits");
+
+    size_t n = num < 0 && inc_minus ? 1 : 0;
+
+    int dec = 1;
+    while (num % dec != num)
+    {
+        dec *= 10;
+        ++n;
+    }
+
+    return n;
 }
 
 } // NAMESPACE CC

@@ -76,4 +76,20 @@ TEST_CASE("Str")
         REQUIRE(s222 == "abc");
         
     }
+
+    SECTION("digits")
+    {
+        REQUIRE(cc::digits(1) == 1);
+        REQUIRE(cc::digits(-1) == 2);
+        REQUIRE(cc::digits(-1, false) == 1);
+        REQUIRE(cc::digits(10) == 2);
+        REQUIRE(cc::digits(100) == 3);
+        REQUIRE(cc::digits(1000) == 4);
+        REQUIRE_THROWS(cc::digits(1000000000));
+        REQUIRE_THROWS(cc::digits(INT32_MAX));
+        REQUIRE_THROWS(cc::digits(-1000000000));
+        REQUIRE_THROWS(cc::digits(INT32_MIN));
+        REQUIRE(cc::digits(1000000000 - 1) == 9);
+        REQUIRE(cc::digits(-1000000000 + 1) == 10);
+    }
 }

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.20.0)
 
 project(ccutil VERSION 1.0.0 LANGUAGES CXX)
 
@@ -25,10 +25,11 @@ if (CMAKE_COMPILER_IS_GNUCXX)
     -Woverloaded-virtual 
     -fmax-errors=3
     -fdiagnostics-color
+    -std=c++2b
   )
 endif()
 
-target_include_directories(${PROJECT_NAME} INTERFACE
+target_include_directories(${PROJECT_NAME} PUBLIC
   "include/"
 )
 
@@ -37,8 +38,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   "include/ccutil/io/"
   "include/ccutil/zip/"
   "include/ccutil/str/"
-  "include/ccutil/progress/"
-  "include/ccutil/sockstream/"
+  "include/ccutil/dvr/"
 )
 
 if(${CMAKE_BUILD_TYPE} MATCHES "Debug")

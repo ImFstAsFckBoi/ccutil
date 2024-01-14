@@ -34,6 +34,7 @@ enum ARROWS_VALUE
  * 
  */
 
+#define EOF EOT
 
 enum ASCII_CTRL_CODES
 {
@@ -70,5 +71,6 @@ enum ASCII_CTRL_CODES
 	RS	= 036,	// Record Separator
 	US	= 037 	// Unit Separator
 };
+
 
 }

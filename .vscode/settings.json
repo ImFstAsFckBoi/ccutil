@@ -1,7 +1,13 @@
 {
     "cSpell.words": [
+        "artihmietic",
         "cstrfmt",
         "ibuff",
+        "matrixd",
+        "matrixf",
+        "matrixi",
+        "maxl",
+        "maxv",
         "obuff",
         "sockstream",
         "strfmt",
@@ -82,5 +88,6 @@
         "variant": "cpp",
         "*.inc": "cpp",
         "bitset": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

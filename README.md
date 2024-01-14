@@ -1,12 +1,18 @@
-# ccutil - A collection of C++ utility classes
+# ccutil - A collection of C++ utility classes.
 
-### Includes:
+## Like boost but easier to use, and not as good
+
+Mostly just done for fun and/or practice.
+
+### Includes
+
 - Zip-iterator
-- POSIX socket wrapper
-- String trimming
-- String splitting
-- IO constants
+- POSIX socket wrappers
+- String utilities
+- Matrix and vector classes.
 - Termios wrapper
+- and other, not so useful, things.
 
-### Testing:
+### Testing
+
 - Catch2 minimum version 3

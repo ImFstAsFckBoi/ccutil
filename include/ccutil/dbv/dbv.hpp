@@ -1,3 +1,6 @@
+#pragma once
+
+
 #include <string>
 #include <concepts>
 #include <fstream>
@@ -53,29 +56,14 @@ public:
     {
         byte_t *value_p = reinterpret_cast<byte_t *>(&__value);
 
-        std::cerr << "Before: ";
-        for (int i{}; i < sizeof(T); ++i)
-        {
-            std::cerr << (int)*(value_p + i) << " ";
-        }
-        std::cerr << "\n" << std::endl;
-
         std::ifstream ifs(__path);
-        std::cerr << "Reading " << sizeof(T) << " bytes from " << __path <<std::endl;
         for (int i{}; i < sizeof(T); ++i)
         {
             byte_t a;
             ifs >> a;
-            std::cerr << "Reading: " << (int) a << " position " << i << std::endl;
             *(value_p + i) = a;
         }
 
-        std::cerr << "Result: ";
-        for (int i{}; i < sizeof(T); ++i)
-        {
-            std::cerr << (int)*(value_p + i) << " ";
-        }
-        std::cerr << "\n" << std::endl;
         return __value;
     }
     /**
@@ -87,13 +75,10 @@ public:
         __tick = 0;
         byte_t *value_p = reinterpret_cast<byte_t *>(&__value);
         std::ofstream ofs{__path};
-        std::cerr << "Writing " << sizeof(T) << " bytes to " << __path << std::endl;
         for (int i{}; i < sizeof(T); ++i)
         {
-            std::cerr << "Writing: " << (int) *(value_p + i) << " position " << i << std::endl;
             ofs << *(value_p + i) << std::flush;
             std::ifstream ifs{__path};
-            std::cerr << "Confirming content: ";
             for (int j{}; j < i; ++j)
             {
                 byte_t a;
